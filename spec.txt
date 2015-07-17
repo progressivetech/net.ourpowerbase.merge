@@ -1,0 +1,62 @@
+Field specific rules:
+
+ * If email is the same, last name is the same, the first name
+   is different, and the first three letters of the first name are
+   different:
+
+   * If neither first name has an &, put both first names together
+
+   * If one first name has an ampersand but the other doesn't, use
+     that one
+
+   * If both have ampersand - leave as conflict
+
+ * If the last name is the same, the first name is different, and the
+   first three letters of the first name are the same and the records
+   share either an email address, phone number or postal address, then:
+   choose the longer first name:
+
+ * If email is the same and last name is different, don't merge.
+
+ * If external id is in conflict, choose the external id that is
+   higher, unless it is between 7 million and 9 million, in which case
+   choose the lower one.
+
+ * If start date is in conflict, choose the earlier one.
+
+ * If each contact has an address, only allow one address in the 
+   resulting record. It should be chosen by:
+
+   * If one is complete and the other is incomplete, choose the complete
+     address. Done.
+
+   * If one is associated with a contribution or a contribution more
+     recent than the other, choose the most recent contribution. Done.
+
+   * If one is associated with a later start date, choose the one with
+     the later start date.
+   
+   * If no rule matches, keep both addresses. One will be the primary, the
+     other will not as chosen by the database.
+
+ * If we choose a winning address, update all voter info records to be
+   the value of the winner.
+
+ * Merge all communications preferences. 
+
+   * Privacy fields: if one record has a privacy field enabled, then
+     it will be enabled in merged record.
+
+   * Communications preferences: If one record has a communication
+     preference set, it will be set in merged record.
+
+Dominant rules: these rules determine whether one record can overwrite
+all fields in the other record that are still in conflict:
+
+ * If one contact has more contributions than the others, then it wins.
+   Done.
+
+ * If one record one the external id test above, then that one wins.
+
+ * If we still don't have a winner, don't merge.
+
