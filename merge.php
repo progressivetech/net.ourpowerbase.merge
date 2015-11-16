@@ -115,8 +115,9 @@ function merge_civicrm_alterSettingsFolders(&$metaDataFolders = NULL) {
 function merge_load_custom_functions() {
   // Include domain specific file
   $url_pieces = parse_url(CIVICRM_UF_BASEURL);
-  if(file_exists(__dir__ . '/' . $url_pieces['host'] . '.inc')) {
-    require_once($url_pieces['host'] . '.inc');
+  $host_pieces = explode('.', $url_pieces['host']);
+  if(file_exists(__dir__ . '/' . $host_pieces[0] . '.inc')) {
+    require_once($host_pieces[0] . '.inc');
   }
 }
 
